@@ -1,0 +1,10 @@
+._*
+*.bak
+\#*\#
+.DS_Store
+/.idea/
+node_modules
+*.py[cod]
+/bw.png
+/crop.png
+/example.png
