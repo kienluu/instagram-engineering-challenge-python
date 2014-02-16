@@ -11,7 +11,8 @@ class InvalidErrorClassException(Exception):
 
 def create_simple_unshredder(
         image_path, shred_width,
-        error_calculator_class=EdgeDifferenceErrorCalculator):
+        error_calculator_class=EdgeDifferenceErrorCalculator,
+        error_calculator_args=()):
     """
     Returns a unshredder with these behaviors:
     unshredder: SpantonUnshredder
@@ -24,7 +25,7 @@ def create_simple_unshredder(
 
     image = Image.open(image_path)
     shred_maker = FixedWidthVerticalShredMaker()
-    error_calculator = error_calculator_class()
+    error_calculator = error_calculator_class(*error_calculator_args)
     unshredder = SpantonUnshredder(
         image, error_calculator, shred_maker, shred_width)
     return unshredder

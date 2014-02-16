@@ -26,10 +26,14 @@ class SpantonUnshredder(Unshredder):
     the lowest error until all shred are used.  The sum of these error is the
     paths error.  The algorithm will find the path error for each starting
     thread.  The path with the lowest path error is assumed to be the solution
+
+    TODO: Add image filter so that algorithms work on the filtered image but
+    answer would be returned with the unfiltered image.  The image filter
+    could be a rgb -> yuv filter or it could be a rgb -> grayscale filter
     """
 
     def __init__(self, image, error_calculator, shred_maker, shred_width):
-        self.image = image
+        self.image = image.convert('L')
         self.error_calculator = error_calculator
         self.shred_maker = shred_maker
         self.shred_width = shred_width
@@ -58,6 +62,13 @@ class SpantonUnshredder(Unshredder):
                         self.error_calculator.get_error(
                             left_shred, right_shred))
 
+        print 'error for pair 9, 8 (not correct pair but always match well)' \
+              ' = %s' % \
+              (pair_table[self.shreds[9]][self.shreds[8]].error)
+
+        print 'error for pair 12, 6 (real matching pair) = %s' % \
+              (pair_table[self.shreds[12]][self.shreds[6]].error)
+
         self.pair_table = pair_table
 
     def get_lowest_error_pair(self, left_shred, available_shreds):
@@ -82,20 +93,20 @@ class SpantonUnshredder(Unshredder):
             lowest_error_pair = self.get_lowest_error_pair(
                 left_shred, available_shreds)
 
-            print len(available_shreds)
-
             available_shreds.remove(lowest_error_pair.right_shred)
             shred_order.append(lowest_error_pair.right_shred)
 
             left_shred = lowest_error_pair.right_shred
             total_error += lowest_error_pair.error
 
+        print 'total error = %s' % total_error
         return ShredPath(shred_order, total_error)
 
     def find_lowest_error_path(self):
         best_path = None
 
-        for start_shred in self.shreds:
+        for index, start_shred in enumerate(self.shreds):
+            print 'index %s' % index
             path = self.get_path_error(start_shred)
             if not best_path:
                 best_path = path

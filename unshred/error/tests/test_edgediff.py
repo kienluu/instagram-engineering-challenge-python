@@ -1,5 +1,5 @@
 import unittest
-from ..edgediff import EdgeDifferenceErrorCalculator
+from ..edgediff import EdgeDifferenceErrorCalculator, MatrixEdgeDifferenceErrorCalculator
 
 
 class TestEdgeDiff(unittest.TestCase):
@@ -36,3 +36,46 @@ class TestEdgeDiff(unittest.TestCase):
         self.assertEqual(
             EdgeDifferenceErrorCalculator.get_error_between_edges_of_tuples(
                 left_edge, right_edge), 6)
+
+class TestMatrixEdgeDifferenceErrorCalculator(unittest.TestCase):
+
+    def test_get_error_at_y(self):
+        error_calc = MatrixEdgeDifferenceErrorCalculator()
+
+        left_edge = [1, 2, 2, 2]
+        right_edge = [1, 2, 2, 2]
+        self.assertEqual(error_calc.get_error_at_y(1, left_edge, right_edge), 0)
+
+        left_edge = [10, 10, 10]
+        right_edge = [1, 1, 1]
+        self.assertEqual(error_calc.get_error_at_y(
+            1, left_edge, right_edge), 30 - 3)
+
+        left_edge = [10, 1, 10]
+        right_edge = [1, 10, 1]
+        self.assertEqual(error_calc.get_error_at_y(
+            1, left_edge, right_edge), 21 - 12)
+
+        left_edge = [10, 1, 10, 1]
+        right_edge = [1, 10, 1, 10]
+        self.assertEqual(error_calc.get_error_at_y(
+            2, left_edge, right_edge), 21 - 12)
+
+    def test_get_error_between_edges(self):
+        error_calc = MatrixEdgeDifferenceErrorCalculator()
+
+        left_edge = [1, 2, 2, 2]
+        right_edge = [1, 2, 2, 2]
+        self.assertEqual(error_calc.get_error_between_edges(
+            left_edge, right_edge), 0)
+
+        left_edge = [10, 10, 10, 10]
+        right_edge = [1, 1, 1, 1]
+        self.assertEqual(error_calc.get_error_between_edges(
+            left_edge, right_edge), 54)
+
+
+        left_edge = [10, 1, 10, 1]
+        right_edge = [1, 10, 1, 10]
+        self.assertEqual(error_calc.get_error_between_edges(
+            left_edge, right_edge), 18)
