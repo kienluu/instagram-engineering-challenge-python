@@ -1,3 +1,4 @@
+from PIL.Image import Image
 from unshred.shred.base import WIDTH_KEY, HEIGHT_KEY
 from unshred.shredmaker.base import AbstractShredMaker
 
@@ -19,3 +20,6 @@ class FixedWidthVerticalShredMaker(AbstractShredMaker):
         return [image.crop(
                 (x, 0, x + shred_width, image.size[HEIGHT_KEY]))
                 for x in xrange(0, image.size[WIDTH_KEY], shred_width)]
+
+    def assemble(self, shreds):
+        return Image()
