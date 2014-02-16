@@ -19,5 +19,5 @@ $ ipython notebook --port=8080 --pprint
 ### Run test suite
 
 ```python
-python test.py
+python unshred/test.py
 ```
