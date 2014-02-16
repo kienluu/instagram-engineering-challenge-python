@@ -1,5 +1,5 @@
 from collections import namedtuple
-from unshredder.unshredder.base import Unshredder
+from unshred.unshredder.base import Unshredder
 
 ShredPair = namedtuple('ShredPair', 'left_shred right_shred error')
 ShredPath = namedtuple('ShredPath', 'shred_order error')
@@ -13,7 +13,7 @@ class SpantonUnshredder(Unshredder):
     Its probably similar to his github solution for the Instagram challenge
     that he has done in factor:
 
-    https://github.com/davespanton/factor-instagram-the-unshredder
+    https://github.com/davespanton/factor-instagram-the-unshred
 
     DESCRIPTION:
 
