@@ -1,4 +1,5 @@
-from PIL.Image import Image
+import types
+from PIL import Image
 from unshred.shred.base import WIDTH_KEY, HEIGHT_KEY
 from unshred.shredmaker.base import AbstractShredMaker
 
@@ -22,4 +23,18 @@ class FixedWidthVerticalShredMaker(AbstractShredMaker):
                 for x in xrange(0, image.size[WIDTH_KEY], shred_width)]
 
     def assemble(self, shreds):
-        return Image()
+        if not isinstance(shreds, list):
+            shreds = list(shreds)
+
+        first_shred = shreds[0]
+        height = first_shred.size[HEIGHT_KEY]
+        width = sum((shred.size[WIDTH_KEY]for shred in shreds), 0)
+        image = Image.new(first_shred.mode, (width, height))
+
+        x_offset = 0
+
+        for shred in shreds:
+            image.paste(shred, (x_offset, 0))
+            x_offset += shred.size[WIDTH_KEY]
+
+        return image
