@@ -27,11 +27,7 @@ class EdgeDifferenceErrorCalculator(AbstractErrorCalculator):
     def get_error_between_edges(left_edge, right_edge):
         error = 0
         for left_pixel, right_pixel in izip(left_edge, right_edge):
-            if isinstance(left_pixel, tuple):
-                for l_dim, r_dim in izip(left_pixel, right_pixel):
-                    error += math.fabs(l_dim - r_dim)
-            else:
-                error += math.fabs(left_pixel - right_pixel)
+            error += abs(left_pixel - right_pixel)
 
         return error
 
@@ -40,7 +36,7 @@ class EdgeDifferenceErrorCalculator(AbstractErrorCalculator):
         error = 0
         for left_pixel, right_pixel in izip(left_edge, right_edge):
             for l_dim, r_dim in izip(left_pixel, right_pixel):
-                error += math.fabs(l_dim - r_dim)
+                error += abs(l_dim - r_dim)
 
         return error
 
