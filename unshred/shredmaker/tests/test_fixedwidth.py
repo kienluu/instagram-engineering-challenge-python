@@ -2,7 +2,7 @@ from itertools import imap, izip
 import unittest
 import os
 from PIL import Image
-from unshred.shredmaker.fixedwidth import FixedWidthVerticalShredMaker
+from unshred.shredmaker.fixedwidth import FixedWidthVerticalShredMaker, SmallerWidthException
 
 MODULE_DIR = os.path.dirname(__file__)
 
@@ -13,6 +13,15 @@ class TestFixedWidthVerticalShredMaker(unittest.TestCase):
         source_path = os.path.join(
             MODULE_DIR, 'assets', 'source', 'TokyoPanoramaShredded.png')
         self.source_image = Image.open(source_path)
+
+
+    def test_raise_smaller_width_exception(self):
+        shred_width = 33
+
+        shred_maker = FixedWidthVerticalShredMaker()
+
+        with self.assertRaises(SmallerWidthException):
+            shreds = shred_maker.get_shreds(self.source_image, shred_width)
 
     def test_shredding(self):
         shred_width = 32
@@ -25,7 +34,6 @@ class TestFixedWidthVerticalShredMaker(unittest.TestCase):
             lambda path: Image.open(path), expected_shred_paths)
 
         shred_maker = FixedWidthVerticalShredMaker()
-
         shreds = shred_maker.get_shreds(self.source_image, shred_width)
 
         self.assertEqual(len(shreds), 20, '20 shreds was expected')
