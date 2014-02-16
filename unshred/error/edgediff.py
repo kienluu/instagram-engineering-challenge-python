@@ -1,6 +1,6 @@
 from itertools import izip
 from .base import AbstractErrorCalculator
-from ..shred.base import WIDTH_KEY, HEIGHT_KEY
+from ..consts import WIDTH_KEY, HEIGHT_KEY
 
 
 class EdgeDifferenceErrorCalculator(AbstractErrorCalculator):

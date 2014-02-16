@@ -1,0 +1,1 @@
+WIDTH_KEY, HEIGHT_KEY = 0, 1

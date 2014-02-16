@@ -1,5 +1,5 @@
 from PIL import Image
-from ..shred.base import WIDTH_KEY, HEIGHT_KEY
+from ..consts import WIDTH_KEY, HEIGHT_KEY
 from .base import AbstractShredMaker
 
 
