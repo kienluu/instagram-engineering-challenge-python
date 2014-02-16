@@ -1,4 +1,4 @@
-class AbstractShredCreator(object):
+class AbstractShredMaker(object):
     """
     This defines the interface.
 

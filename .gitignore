@@ -3,8 +3,10 @@
 \#*\#
 .DS_Store
 /.idea/
+/.ipynb_checkpoints
 node_modules
 *.py[cod]
 /bw.png
 /crop.png
 /example.png
+/output
