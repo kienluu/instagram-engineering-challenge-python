@@ -1,5 +1,5 @@
 from collections import namedtuple
-from unshred.unshredder.base import Unshredder
+from .base import Unshredder
 
 ShredPair = namedtuple('ShredPair', 'left_shred right_shred error')
 ShredPath = namedtuple('ShredPath', 'shred_order error')

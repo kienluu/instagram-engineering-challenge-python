@@ -1,5 +1,5 @@
 import unittest
-from unshred.error.edgediff import EdgeDifferenceErrorCalculator
+from ..edgediff import EdgeDifferenceErrorCalculator
 
 
 class TestEdgeDiff(unittest.TestCase):

@@ -2,4 +2,4 @@ import unittest
 
 testsuite = unittest.TestLoader().discover('.')
 
-unittest.TextTestRunner().run(testsuite)
+unittest.TextTestRunner(failfast=True).run(testsuite)

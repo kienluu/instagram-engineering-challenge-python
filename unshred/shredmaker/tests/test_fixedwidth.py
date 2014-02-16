@@ -2,7 +2,8 @@ from itertools import imap, izip
 import unittest
 import os
 from PIL import Image
-from unshred.shredmaker.fixedwidth import FixedWidthVerticalShredMaker, SmallerWidthException
+from unshred.shredmaker.fixedwidth import FixedWidthVerticalShredMaker, \
+    SmallerWidthException
 
 MODULE_DIR = os.path.dirname(__file__)
 

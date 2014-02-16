@@ -1,7 +1,6 @@
-import types
 from PIL import Image
-from unshred.shred.base import WIDTH_KEY, HEIGHT_KEY
-from unshred.shredmaker.base import AbstractShredMaker
+from ..shred.base import WIDTH_KEY, HEIGHT_KEY
+from .base import AbstractShredMaker
 
 
 class SmallerWidthException(Exception):
