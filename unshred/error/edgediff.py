@@ -1,9 +1,9 @@
 from itertools import izip
-from .base import AbstractErrorCalculator
+from .base import AbstractPairErrorCalculator
 from ..consts import WIDTH_KEY, HEIGHT_KEY
 
 
-class EdgeDifferenceErrorCalculator(AbstractErrorCalculator):
+class EdgeDifferenceErrorCalculator(AbstractPairErrorCalculator):
     """
     Calculates the error along the vertical edges where two shreds join
 
@@ -12,9 +12,8 @@ class EdgeDifferenceErrorCalculator(AbstractErrorCalculator):
     """
 
     def get_error(self, left_shred, right_shred):
-        left_edge = self.get_edge(0, left_shred)
-        right_edge = self.get_edge(
-            right_shred.image.size[WIDTH_KEY], right_shred)
+        left_edge = self.get_edge(right_shred.size[WIDTH_KEY] - 1, left_shred)
+        right_edge = self.get_edge(0, right_shred)
 
         if isinstance(left_edge[0], tuple):
             return self.get_error_between_edges_of_tuples(left_edge, right_edge)
