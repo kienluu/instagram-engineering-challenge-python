@@ -6,7 +6,7 @@ This is my attempt at Instagrams engineering challenge in python.
 
 ### Install python depedencies
 
-```python
+```bash
 $ pip install -r requirements.txt
 ```
 
@@ -20,4 +20,12 @@ $ ipython notebook --port=8080 --pprint
 
 ```python
 python unshred/test.py
+```
+
+### Unshred an image
+
+Edit solve.py and  then run it.
+
+```bash
+$ python solve.py
 ```
