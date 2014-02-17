@@ -1,5 +1,8 @@
 from collections import namedtuple
+import logging
 from .base import Unshredder
+
+logger = logging.getLogger('unshredder')
 
 ShredPair = namedtuple('ShredPair', 'left_shred right_shred error')
 ShredPath = namedtuple('ShredPath', 'shred_order error')
@@ -33,7 +36,7 @@ class SpantonUnshredder(Unshredder):
     """
 
     def __init__(self, image, error_calculator, shred_maker, shred_width):
-        self.image = image.convert('L')
+        self.image = image
         self.error_calculator = error_calculator
         self.shred_maker = shred_maker
         self.shred_width = shred_width
@@ -61,13 +64,6 @@ class SpantonUnshredder(Unshredder):
                         left_shred, right_shred,
                         self.error_calculator.get_error(
                             left_shred, right_shred))
-
-        print 'error for pair 9, 8 (not correct pair but always match well)' \
-              ' = %s' % \
-              (pair_table[self.shreds[9]][self.shreds[8]].error)
-
-        print 'error for pair 12, 6 (real matching pair) = %s' % \
-              (pair_table[self.shreds[12]][self.shreds[6]].error)
 
         self.pair_table = pair_table
 
@@ -99,14 +95,14 @@ class SpantonUnshredder(Unshredder):
             left_shred = lowest_error_pair.right_shred
             total_error += lowest_error_pair.error
 
-        print 'total error = %s' % total_error
+        logger.debug('total error = %s' % total_error)
         return ShredPath(shred_order, total_error)
 
     def find_lowest_error_path(self):
         best_path = None
 
         for index, start_shred in enumerate(self.shreds):
-            print 'index %s' % index
+            logger.debug('index %s' % index)
             path = self.get_path_error(start_shred)
             if not best_path:
                 best_path = path

@@ -1,4 +1,11 @@
+import logging
+import sys
 from unshred.factory.simple import create_simple_unshredder
+
+ch = logging.StreamHandler(stream=sys.stdout)
+logger = logging.getLogger('unshredder')
+logger.addHandler(ch)
+logger.setLevel(logging.DEBUG)
 
 
 def main():

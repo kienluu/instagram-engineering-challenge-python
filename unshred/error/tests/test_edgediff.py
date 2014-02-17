@@ -18,9 +18,9 @@ class TestEdgeDiff(unittest.TestCase):
         left_edge = [8, 12, 5, 5]
         right_edge = [10, 10, 5, 5]
 
-        self.assertEqual(
+        self.assertAlmostEqual(
             EdgeDifferenceErrorCalculator.get_error_between_edges(
-                left_edge, right_edge), 4)
+                left_edge, right_edge), 2 / 30.0, places=15)
 
     def test_get_error_between_edges_of_tuples(self):
         left_edge = [(10, 10, 10), (5, 5, 5)]
@@ -35,7 +35,7 @@ class TestEdgeDiff(unittest.TestCase):
 
         self.assertEqual(
             EdgeDifferenceErrorCalculator.get_error_between_edges_of_tuples(
-                left_edge, right_edge), 6)
+                left_edge, right_edge), 0.07142857142857142)
 
 class TestMatrixEdgeDifferenceErrorCalculator(unittest.TestCase):
 

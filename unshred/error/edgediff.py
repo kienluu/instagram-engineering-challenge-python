@@ -1,4 +1,4 @@
-from itertools import izip, product, chain
+from itertools import izip, product
 from .base import AbstractPairErrorCalculator
 from ..consts import WIDTH_KEY, HEIGHT_KEY
 
@@ -23,7 +23,9 @@ class EdgeDifferenceErrorCalculator(AbstractPairErrorCalculator):
 
     @staticmethod
     def get_error_between_edges(left_edge, right_edge):
+        left_edge, right_edge = normalize_array_pair(left_edge, right_edge)
         error = 0
+
         for left_pixel, right_pixel in izip(left_edge, right_edge):
             error += abs(left_pixel - right_pixel)
 
@@ -31,7 +33,9 @@ class EdgeDifferenceErrorCalculator(AbstractPairErrorCalculator):
 
     @staticmethod
     def get_error_between_edges_of_tuples(left_edge, right_edge):
+        left_edge, right_edge = normalize_data_array_pair(left_edge, right_edge)
         error = 0
+
         for left_pixel, right_pixel in izip(left_edge, right_edge):
             for l_dim, r_dim in izip(left_pixel, right_pixel):
                 error += abs(l_dim - r_dim)
@@ -156,7 +160,7 @@ class NormalisedMatrixEdgeDifferenceErrorCalculator(AbstractPairErrorCalculator)
         height = len(left_edge)
         error = 0
 
-        left_edge, right_edge = self.normalize(left_edge, right_edge)
+        left_edge, right_edge = normalize_array_pair(left_edge, right_edge)
 
         for y_offset in xrange(self.matrix_radius, height - self.matrix_radius):
             error += self.get_error_at_y(
@@ -181,7 +185,7 @@ class NormalisedMatrixEdgeDifferenceErrorCalculator(AbstractPairErrorCalculator)
         data = (left_edge, right_edge)
         value = 0
 
-        # TODO: Find out of product is lazy
+        # TODO: Find out if product is lazy
         for m_x, m_y in product(
                 xrange(self.matrix_width), xrange(self.matrix_height)):
             coefficient = self.matrix[m_x][m_y]
@@ -195,11 +199,35 @@ class NormalisedMatrixEdgeDifferenceErrorCalculator(AbstractPairErrorCalculator)
         return [shred.getpixel((x_const,y))
                 for y in xrange(shred.size[HEIGHT_KEY])]
 
-    @staticmethod
-    def normalize(left, right):
-        """
-        normalise the two columns of single value pixels
-        """
-        coef = 1.0 / sum(left + right)
 
-        return map(lambda x: coef * x, left), map(lambda x: coef * x, right)
+def normalize_array_pair(left, right):
+    """
+    normalise the two columns of single value pixels
+    """
+    coef = 1.0 / sum(left + right)
+
+    return map(lambda x: coef * x, left), map(lambda x: coef * x, right)
+
+
+def normalize_data_array_pair(left, right):
+    """
+    normalise the two columns of multiple value pixels
+    """
+    total = 0
+    for l_pixel, r_pixel in izip(left, right):
+        for l_dim, r_dim in izip(l_pixel, r_pixel):
+            total += l_dim + r_dim
+
+    coef = 1.0 / total
+
+    return multiple_data_array(left, coef), multiple_data_array(right, coef)
+
+
+def multiple_data_array(data, coef):
+    result = []
+    for point in data:
+        new_point = []
+        for dim in point:
+            new_point.append(dim * coef)
+        result.append(new_point)
+    return result
