@@ -1,4 +1,5 @@
-from unshred.error.edgediff import MatrixEdgeDifferenceErrorCalculator
+from unshred.error.edgediff import MatrixEdgeDifferenceErrorCalculator,\
+    NormalisedMatrixEdgeDifferenceErrorCalculator
 from unshred.factory.simple import create_simple_unshredder
 
 
@@ -13,7 +14,7 @@ def main():
 
     unshredder = create_simple_unshredder(
         'assets/shredded_images/TokyoPanoramaShredded.png', 32,
-        error_calculator_class=MatrixEdgeDifferenceErrorCalculator,
+        error_calculator_class=NormalisedMatrixEdgeDifferenceErrorCalculator,
         error_calculator_args=(matrix,))
     answer = unshredder.solve()
     answer.save('output/matrix_answer.png')
